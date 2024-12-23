@@ -7,7 +7,8 @@ import re
 import ast
 import json
 import random
-
+import string
+import random
 
 TMDB_API_KEY = '8ec214ca2f44667feb8e5c68310e814e'
 TMDB_BASE_URL = 'https://api.themoviedb.org/3'
@@ -28,6 +29,10 @@ app.config['MAIL_PASSWORD'] = 'jkjvqgnaxynwirgs'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
+
+
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 def email_validation(email):
@@ -62,7 +67,8 @@ def user_signin():
         if mycur:
             return "failed", 402
         else:
-            id_data = email[0:3] + password[0:3]
+            # id_data = email[0:3] + password[0:3]
+            id_data = id_generator()
             cursor.execute('INSERT INTO data_film_user (id_data) VALUES (%s);',
                            (id_data,))
             cursor.execute('INSERT INTO akun_user (email, password, username, id_data) VALUES (%s, %s, %s, %s);',
