@@ -1,5 +1,5 @@
+from flask import Flask
 from flask import jsonify, request
-from myweb import app
 from flask_mail import Mail, Message
 import mysql.connector
 import requests
@@ -20,6 +20,7 @@ conndb = mysql.connector.connect(
     database="reckomov"
 )
 
+app = Flask(__name__)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 25
@@ -598,3 +599,7 @@ def user_data(email):
     result = ", ".join(genre_names)
     data.append(result)
     return jsonify(data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
